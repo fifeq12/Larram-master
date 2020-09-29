@@ -1,0 +1,30 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+    <h1 class="Roboto p-2" style="font-size:150%;"><b>Profil</b></h1>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row Roboto pt-1 p-2">
+    <div class="col-md-6">
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <h6>Nazwa użytkownika</h6>
+                <input asp-for="Username" class="form-control w-50" disabled />
+            </div>
+            <div class="form-group">
+                <h6>Numer telefonu</h6>
+                <input asp-for="Input.PhoneNumber" class="form-control w-50" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="btn btn-dark p-2 w-25">Zapisz</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

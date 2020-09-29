@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Larram.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+    <ul class="navbar-nav flex-row pt-xl-0 pt-md-0 pt-sm-0 pr-lg-3 pr-3 pt-1">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item pr-1 pr-lg-0">
+                <a class="nav-link text-light navBar-panel Roboto" asp-area="Identity" asp-page="/Account/Manage/Index"><i style="font-size:32px" data-feather="user"></i><p>KONTO</p></a>
+            </li>
+            <li class="nav-item pr-1 pr-lg-0">
+                <form id="myform" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <a href="#" onclick="document.getElementById('myform').submit()" class="nav-link text-light navBar-panel Roboto"><i style="font-size:32px" data-feather="log-out"></i><p>WYLOGUJ</p></a>
+                </form>
+            </li>
+            <li class="nav-item pr-1 pr-lg-0">
+
+                <a class="nav-link text-light navBar-panel Roboto position-relative" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                    <i style="font-size:32px" data-feather="shopping-bag"></i><p>KOSZYK</p>
+                    @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.ShoppingCartSession) != null
+                     && HttpContextAccessor.HttpContext.Session.GetInt32(SD.ShoppingCartSession) != 0)
+                    {
+                        var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.ShoppingCartSession);
+                        <p class="text-light Roboto bg-success p-1 pl-2 pr-2" style="position:absolute; top:32%; left:55%; font-size:38%;">@count</p>
+                    }
+                </a>
+            </li>
+            @if (User.IsInRole(SD.Role_Customer))
+            {
+                <li class="nav-item ">
+                    <a class="nav-link text-light navBar-panel Roboto" asp-area="Admin" asp-controller="Order" asp-action="Index"><i style="font-size:32px" data-feather="list"></i><p>ZAMÓWIENIA</p></a>
+                </li>
+                    }
+                    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+                    {
+                    <li class="nav-item text-center">
+                        <a class="nav-link text-light navBar-panel Roboto" asp-area="Admin" asp-controller="Management" asp-action="Index">
+                            <i style="font-size:32px" data-feather="settings"></i><p>ZARZĄDZANIE</p>
+                        </a>
+                    </li>
+                }
+                    }
+                    else
+                    {
+                    <li class="nav-item pr-3 pr-lg-0">
+                        <a class="nav-link text-light navBar-panel Roboto" asp-area="Identity" asp-page="/Account/Register"><i style="font-size:32px" data-feather="user-plus"></i><p>REJESTRACJA</p></a>
+                    </li>
+                    <li class="nav-item pr-3 pr-lg-0">
+                        <a class="nav-link text-light navBar-panel Roboto" asp-area="Identity" asp-page="/Account/Login"><i style="font-size:32px" data-feather="log-in"></i><p>LOGOWANIE</p></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light navBar-panel Roboto position-relative" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                            <i style="font-size:32px" data-feather="shopping-bag"></i><p>KOSZYK</p>
+                            @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.ShoppingCartSession) != null
+                            && HttpContextAccessor.HttpContext.Session.GetInt32(SD.ShoppingCartSession) != 0)
+                            {
+                                var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.ShoppingCartSession);
+                                <p class="text-light Roboto bg-success p-1 pl-2 pr-2" style="position:absolute; top:32%; left:55%; font-size:38%;">@count</p>
+                            }
+                        </a>
+                    </li>
+                    }
+                </ul>
